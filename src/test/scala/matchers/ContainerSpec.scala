@@ -10,11 +10,20 @@ class ContainerSpec extends UnitSpec {
     val oneUsd: Currency = "1 USD"
     val twoEuros: Currency = "2 EUR"
     val tenCad: Currency = "10 CAD"
-
     val wallet = List(oneUsd, twoEuros, tenCad)
 
     wallet should contain(oneUsd)
+  }
 
+  it should "not contain a currency that is not added to a List wallet" in {
+    val oneUsd: Currency = "1 USD"
+    val twoEuros: Currency = "2 EUR"
+    val tenCad: Currency = "10 CAD"
+    val tenNzd: Currency = "10 NZD"
+
+    val wallet = List(oneUsd, twoEuros, tenCad)
+
+    wallet should not contain(tenNzd)
   }
 
   it should "contain a currency that is added to a Set wallet" in {
@@ -24,8 +33,18 @@ class ContainerSpec extends UnitSpec {
 
     val wallet = Set(oneUsd, twoEuros, tenCad)
 
-    wallet should contain(oneUsd)
+    wallet should  contain(oneUsd)
+  }
 
+  it should "not contain a currency that is not added to a Set wallet" in {
+    val oneUsd: Currency = "1 USD"
+    val twoEuros: Currency = "2 EUR"
+    val tenCad: Currency = "10 CAD"
+    val tenNzd: Currency = "10 NZD"
+
+    val wallet = Set(oneUsd, twoEuros, tenCad)
+
+    wallet should not contain(tenNzd)
   }
 
   it should "contain a currency that is added to a Map wallet" in {
@@ -40,6 +59,21 @@ class ContainerSpec extends UnitSpec {
     )
 
     wallet should contain("USD" -> oneUsd)
+  }
+
+  it should "not contain a currency that is added to a Map wallet" in {
+    val oneUsd: Currency = "1 USD"
+    val twoEuros: Currency = "2 EUR"
+    val tenCad: Currency = "10 CAD"
+    val tenNzd: Currency = "10 NZD"
+
+    val wallet: Map[String, Currency] = Map(
+      "USD" -> oneUsd,
+      "EUR" -> twoEuros,
+      "CAD" -> tenCad
+    )
+
+    wallet should not contain("NZD" -> tenNzd)
   }
 
   it should "contain a oneOf 1 USD that is added to a Set wallet" in {
@@ -62,7 +96,7 @@ class ContainerSpec extends UnitSpec {
 
     val wallet = Set(oneUsd, oneUsd, twoEuros, twoEuros)
 
-    wallet should contain noneOf (tenCad, hundredInr)
+    wallet should contain noneOf(tenCad, hundredInr)
     wallet should contain noElementsOf List(tenCad, hundredInr)
   }
 
